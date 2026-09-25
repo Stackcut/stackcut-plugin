@@ -1,0 +1,19 @@
+{
+  "name": "stackcut",
+  "displayName": "Stackcut",
+  "version": "1.0.0",
+  "description": "Cut SaaS spend. Work through your Stackcut savings plan line by line (receipts and sourced prices as proof), find cheaper alternatives to the tools you pay for with step-by-step exit and setup playbooks, and pick the cheapest database, host or email provider at your real volume. Free, no API key.",
+  "author": {
+    "name": "Stackcut"
+  },
+  "publisher": "Stackcut",
+  "homepage": "https://stackcut.io/grok",
+  "repository": "https://github.com/msanchezgrice/stackcut-plugin",
+  "license": "MIT",
+  "logo": "assets/logo.svg",
+  "category": "productivity",
+  "keywords": ["saas", "subscriptions", "cost", "savings", "alternatives", "pricing", "open-source", "stack", "finance"],
+  "tags": ["finance", "productivity", "saas", "cost-cutting"],
+  "skills": "./skills/",
+  "mcpServers": "./mcp.json"
+}

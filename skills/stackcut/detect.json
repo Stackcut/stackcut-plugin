@@ -1,0 +1,2965 @@
+{
+ "version": 1,
+ "about": "Apply these rules to a codebase locally. Send Stackcut only the summary (vendor ids, evidence labels, feature names, counts). Never send source code, file contents, or environment variable values.",
+ "scan": {
+  "manifests": {
+   "npm": [
+    "package.json"
+   ],
+   "pypi": [
+    "requirements*.txt",
+    "pyproject.toml",
+    "Pipfile"
+   ],
+   "gem": [
+    "Gemfile"
+   ],
+   "go": [
+    "go.mod"
+   ]
+  },
+  "env_name_sources": [
+   "process.env.NAME",
+   "import.meta.env.NAME",
+   "Deno.env.get('NAME')",
+   "os.environ['NAME']",
+   "os.getenv('NAME')",
+   "ENV['NAME']",
+   ".env.example / .env.sample / .env.template keys (never read .env or .env.local)"
+  ],
+  "source_extensions": [
+   "js",
+   "jsx",
+   "ts",
+   "tsx",
+   "mjs",
+   "cjs",
+   "py",
+   "rb",
+   "go",
+   "php",
+   "vue",
+   "svelte",
+   "astro",
+   "html",
+   "toml",
+   "yaml",
+   "yml",
+   "json"
+  ],
+  "skip_dirs": [
+   "node_modules",
+   ".git",
+   "dist",
+   "build",
+   ".next",
+   ".vercel",
+   ".turbo",
+   "coverage",
+   "vendor",
+   "venv",
+   ".venv",
+   "__pycache__",
+   "out",
+   ".output",
+   ".svelte-kit",
+   ".cache"
+  ],
+  "max_file_bytes": 1000000
+ },
+ "vendors": [
+  {
+   "id": "stripe",
+   "name": "Stripe",
+   "product_id": "stripe",
+   "category": "Payments",
+   "npm": [
+    "stripe",
+    "@stripe/stripe-js",
+    "@stripe/react-stripe-js"
+   ],
+   "pypi": [
+    "stripe"
+   ],
+   "gem": [
+    "stripe"
+   ],
+   "go": [
+    "github.com/stripe/stripe-go*"
+   ],
+   "env": [
+    "^STRIPE_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.stripe\\.com",
+    "js\\.stripe\\.com"
+   ],
+   "features": [
+    {
+     "name": "Checkout",
+     "re": "checkout\\.sessions|redirectToCheckout|embeddedCheckout"
+    },
+    {
+     "name": "Subscriptions",
+     "re": "subscriptions\\.(create|update|retrieve|cancel)|stripe\\.Subscription"
+    },
+    {
+     "name": "Customer portal",
+     "re": "billingPortal"
+    },
+    {
+     "name": "Payment intents",
+     "re": "paymentIntents|PaymentIntent"
+    },
+    {
+     "name": "Connect payouts",
+     "re": "accounts\\.create|transfers\\.create|stripe_account"
+    },
+    {
+     "name": "Invoices",
+     "re": "invoices\\.(create|finalize|send)"
+    },
+    {
+     "name": "Webhooks",
+     "re": "webhooks\\.constructEvent|construct_event"
+    },
+    {
+     "name": "Stripe Tax",
+     "re": "automatic_tax|tax\\.calculations"
+    }
+   ]
+  },
+  {
+   "id": "lemon_squeezy",
+   "name": "Lemon Squeezy",
+   "product_id": "lemon_squeezy",
+   "category": "Payments",
+   "npm": [
+    "@lemonsqueezy/lemonsqueezy.js"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^LEMON_?SQUEEZY"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.lemonsqueezy\\.com"
+   ],
+   "features": [
+    {
+     "name": "Checkout",
+     "re": "createCheckout|/v1/checkouts"
+    },
+    {
+     "name": "Subscriptions",
+     "re": "subscriptions"
+    },
+    {
+     "name": "Webhooks",
+     "re": "x-signature|webhook"
+    }
+   ]
+  },
+  {
+   "id": "paddle",
+   "name": "Paddle",
+   "product_id": "paddle",
+   "category": "Payments",
+   "npm": [
+    "@paddle/paddle-js",
+    "@paddle/paddle-node-sdk"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^PADDLE_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.paddle\\.com",
+    "cdn\\.paddle\\.com"
+   ],
+   "features": [
+    {
+     "name": "Checkout",
+     "re": "Checkout\\.open|initializePaddle"
+    },
+    {
+     "name": "Subscriptions",
+     "re": "subscriptions"
+    },
+    {
+     "name": "Webhooks",
+     "re": "unmarshal|paddle-signature"
+    }
+   ]
+  },
+  {
+   "id": "resend",
+   "name": "Resend",
+   "product_id": "resend",
+   "category": "Email infrastructure",
+   "npm": [
+    "resend",
+    "@react-email/components"
+   ],
+   "pypi": [
+    "resend"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^RESEND_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.resend\\.com"
+   ],
+   "features": [
+    {
+     "name": "Send email",
+     "re": "emails\\.send|Emails\\.send"
+    },
+    {
+     "name": "Batch send",
+     "re": "batch\\.send"
+    },
+    {
+     "name": "Audiences and broadcasts",
+     "re": "audiences|broadcasts|contacts\\.create"
+    },
+    {
+     "name": "Domains API",
+     "re": "domains\\.(create|verify)"
+    }
+   ]
+  },
+  {
+   "id": "sendgrid",
+   "name": "SendGrid",
+   "product_id": "sendgrid",
+   "category": "Email infrastructure",
+   "npm": [
+    "@sendgrid/mail",
+    "@sendgrid/client"
+   ],
+   "pypi": [
+    "sendgrid"
+   ],
+   "gem": [
+    "sendgrid-ruby"
+   ],
+   "go": [],
+   "env": [
+    "^SENDGRID_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.sendgrid\\.com"
+   ],
+   "features": [
+    {
+     "name": "Transactional send",
+     "re": "sgMail\\.send|\\.send\\(msg|mail/send|Mail\\("
+    },
+    {
+     "name": "Dynamic templates",
+     "re": "templateId|template_id|dynamic_template_data"
+    },
+    {
+     "name": "Marketing contacts",
+     "re": "marketing/(contacts|lists|singlesends)"
+    }
+   ]
+  },
+  {
+   "id": "postmark",
+   "name": "Postmark",
+   "product_id": "postmark",
+   "category": "Email infrastructure",
+   "npm": [
+    "postmark"
+   ],
+   "pypi": [
+    "postmarker"
+   ],
+   "gem": [
+    "postmark"
+   ],
+   "go": [],
+   "env": [
+    "^POSTMARK_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.postmarkapp\\.com"
+   ],
+   "features": [
+    {
+     "name": "Send email",
+     "re": "sendEmail\\b|send_email|deliver"
+    },
+    {
+     "name": "Templates",
+     "re": "WithTemplate|TemplateAlias|template_id"
+    },
+    {
+     "name": "Inbound email",
+     "re": "Inbound"
+    }
+   ]
+  },
+  {
+   "id": "mailgun",
+   "name": "Mailgun",
+   "product_id": "mailgun",
+   "category": "Email infrastructure",
+   "npm": [
+    "mailgun.js",
+    "mailgun-js"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^MAILGUN_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.(eu\\.)?mailgun\\.net"
+   ],
+   "features": [
+    {
+     "name": "Send email",
+     "re": "messages\\.create|/messages\\b"
+    },
+    {
+     "name": "Email validation",
+     "re": "validate"
+    }
+   ]
+  },
+  {
+   "id": "amazon_ses",
+   "name": "Amazon SES",
+   "product_id": "amazon_ses",
+   "category": "Email infrastructure",
+   "npm": [
+    "@aws-sdk/client-ses",
+    "@aws-sdk/client-sesv2"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^(AWS_)?SES_"
+   ],
+   "files": [],
+   "hosts": [
+    "email\\.[a-z0-9-]+\\.amazonaws\\.com"
+   ],
+   "features": [
+    {
+     "name": "Send email",
+     "re": "SendEmailCommand|SendRawEmailCommand|send_email|send_raw_email"
+    }
+   ]
+  },
+  {
+   "id": "agentmail",
+   "name": "AgentMail",
+   "product_id": "agentmail",
+   "category": "Email infrastructure",
+   "npm": [
+    "agentmail"
+   ],
+   "pypi": [
+    "agentmail"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^AGENTMAIL_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.agentmail\\.to"
+   ],
+   "features": [
+    {
+     "name": "Create inboxes",
+     "re": "inboxes\\.(create|list)"
+    },
+    {
+     "name": "Send email",
+     "re": "messages\\.send|send_message"
+    },
+    {
+     "name": "Threads",
+     "re": "threads\\.(list|get)"
+    },
+    {
+     "name": "Webhooks",
+     "re": "webhooks\\."
+    }
+   ]
+  },
+  {
+   "id": "mailchimp",
+   "name": "Mailchimp",
+   "product_id": "mailchimp",
+   "category": "Email marketing",
+   "npm": [
+    "@mailchimp/mailchimp_marketing",
+    "@mailchimp/mailchimp_transactional"
+   ],
+   "pypi": [
+    "mailchimp-marketing",
+    "mailchimp3"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^(MAILCHIMP|MANDRILL)_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.mailchimp\\.com",
+    "mandrillapp\\.com"
+   ],
+   "features": [
+    {
+     "name": "Add subscribers",
+     "re": "addListMember|setListMember|/lists/.*/members"
+    },
+    {
+     "name": "Campaigns",
+     "re": "campaigns\\.(create|send)"
+    },
+    {
+     "name": "Transactional (Mandrill)",
+     "re": "mailchimp_transactional|mandrill"
+    }
+   ]
+  },
+  {
+   "id": "kit",
+   "name": "Kit (ConvertKit)",
+   "product_id": "kit",
+   "category": "Email marketing",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^(CONVERTKIT|KIT)_API"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.convertkit\\.com",
+    "api\\.kit\\.com"
+   ],
+   "features": [
+    {
+     "name": "Add subscribers",
+     "re": "subscribe|subscribers"
+    },
+    {
+     "name": "Tags",
+     "re": "/tags"
+    }
+   ]
+  },
+  {
+   "id": "beehiiv",
+   "name": "beehiiv",
+   "product_id": "beehiiv",
+   "category": "Email marketing",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^BEEHIIV_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.beehiiv\\.com"
+   ],
+   "features": [
+    {
+     "name": "Add subscribers",
+     "re": "subscriptions"
+    }
+   ]
+  },
+  {
+   "id": "mailerlite",
+   "name": "MailerLite",
+   "product_id": "mailerlite",
+   "category": "Email marketing",
+   "npm": [
+    "@mailerlite/mailerlite-nodejs"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^MAILERLITE_"
+   ],
+   "files": [],
+   "hosts": [
+    "connect\\.mailerlite\\.com"
+   ],
+   "features": [
+    {
+     "name": "Add subscribers",
+     "re": "subscribers"
+    }
+   ]
+  },
+  {
+   "id": "supabase",
+   "name": "Supabase",
+   "product_id": "supabase",
+   "category": "Databases",
+   "npm": [
+    "@supabase/supabase-js",
+    "@supabase/ssr",
+    "@supabase/auth-helpers-nextjs"
+   ],
+   "pypi": [
+    "supabase"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "SUPABASE_"
+   ],
+   "files": [
+    "supabase/config.toml"
+   ],
+   "hosts": [
+    "\\.supabase\\.co\\b"
+   ],
+   "features": [
+    {
+     "name": "Postgres database",
+     "re": "\\.from\\(['\\\"`]"
+    },
+    {
+     "name": "Auth",
+     "re": "auth\\.(signIn|signUp|getUser|getSession|exchangeCodeForSession)"
+    },
+    {
+     "name": "Storage",
+     "re": "storage\\.from"
+    },
+    {
+     "name": "Realtime",
+     "re": "\\.channel\\(['\\\"`]|postgres_changes"
+    },
+    {
+     "name": "Edge Functions",
+     "re": "functions\\.invoke|supabase/functions"
+    }
+   ]
+  },
+  {
+   "id": "neon",
+   "name": "Neon",
+   "product_id": "neon",
+   "category": "Databases",
+   "npm": [
+    "@neondatabase/serverless"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^NEON_"
+   ],
+   "files": [],
+   "hosts": [
+    "neon\\.tech"
+   ],
+   "features": [
+    {
+     "name": "Postgres database",
+     "re": "neon\\(|Pool\\("
+    }
+   ]
+  },
+  {
+   "id": "planetscale",
+   "name": "PlanetScale",
+   "product_id": "planetscale",
+   "category": "Databases",
+   "npm": [
+    "@planetscale/database"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^PLANETSCALE"
+   ],
+   "files": [],
+   "hosts": [
+    "psdb\\.cloud"
+   ],
+   "features": [
+    {
+     "name": "MySQL database",
+     "re": "connect\\(|execute\\("
+    }
+   ]
+  },
+  {
+   "id": "vercel",
+   "name": "Vercel",
+   "product_id": "vercel",
+   "category": "Hosting",
+   "npm": [
+    "@vercel/analytics",
+    "@vercel/speed-insights",
+    "@vercel/blob",
+    "@vercel/kv",
+    "@vercel/postgres",
+    "@vercel/og",
+    "@vercel/functions"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^VERCEL_",
+    "^KV_REST_API",
+    "^BLOB_READ_WRITE_TOKEN"
+   ],
+   "files": [
+    "vercel.json",
+    ".vercel/project.json"
+   ],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Web Analytics",
+     "re": "@vercel/analytics"
+    },
+    {
+     "name": "Speed Insights",
+     "re": "@vercel/speed-insights"
+    },
+    {
+     "name": "Blob storage",
+     "re": "@vercel/blob"
+    },
+    {
+     "name": "KV",
+     "re": "@vercel/kv"
+    },
+    {
+     "name": "Cron jobs",
+     "re": "\\\"crons\\\""
+    },
+    {
+     "name": "OG images",
+     "re": "@vercel/og|ImageResponse"
+    },
+    {
+     "name": "AI Gateway",
+     "re": "ai-gateway\\.vercel\\.sh|gateway\\("
+    }
+   ]
+  },
+  {
+   "id": "netlify",
+   "name": "Netlify",
+   "product_id": "netlify",
+   "category": "Hosting",
+   "npm": [
+    "@netlify/functions",
+    "@netlify/blobs"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^NETLIFY_"
+   ],
+   "files": [
+    "netlify.toml",
+    "netlify/functions"
+   ],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Functions",
+     "re": "@netlify/functions|netlify/functions"
+    },
+    {
+     "name": "Forms",
+     "re": "data-netlify|netlify-honeypot"
+    },
+    {
+     "name": "Identity",
+     "re": "netlify-identity"
+    }
+   ]
+  },
+  {
+   "id": "render",
+   "name": "Render",
+   "product_id": "render",
+   "category": "Hosting",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^RENDER_"
+   ],
+   "files": [
+    "render.yaml"
+   ],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Web service",
+     "re": "type:\\s*web"
+    },
+    {
+     "name": "Background worker",
+     "re": "type:\\s*worker"
+    },
+    {
+     "name": "Cron job",
+     "re": "type:\\s*cron"
+    },
+    {
+     "name": "Postgres",
+     "re": "databases:"
+    }
+   ]
+  },
+  {
+   "id": "railway",
+   "name": "Railway",
+   "product_id": "railway",
+   "category": "Hosting",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^RAILWAY_"
+   ],
+   "files": [
+    "railway.json",
+    "railway.toml"
+   ],
+   "hosts": [],
+   "features": []
+  },
+  {
+   "id": "flyio",
+   "name": "Fly.io",
+   "product_id": "flyio",
+   "category": "Hosting",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^FLY_"
+   ],
+   "files": [
+    "fly.toml"
+   ],
+   "hosts": [],
+   "features": []
+  },
+  {
+   "id": "heroku",
+   "name": "Heroku",
+   "product_id": "heroku",
+   "category": "Hosting",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^HEROKU_"
+   ],
+   "files": [
+    "app.json",
+    "Procfile"
+   ],
+   "hosts": [],
+   "features": [],
+   "weak": true
+  },
+  {
+   "id": "cloudflare",
+   "name": "Cloudflare",
+   "product_id": "cloudflare",
+   "category": "Hosting",
+   "npm": [
+    "wrangler",
+    "@cloudflare/workers-types",
+    "cloudflare",
+    "@cloudflare/next-on-pages"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^(CLOUDFLARE|CF)_"
+   ],
+   "files": [
+    "wrangler.toml",
+    "wrangler.json",
+    "wrangler.jsonc"
+   ],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Workers",
+     "re": "export default \\{\\s*async fetch|wrangler"
+    },
+    {
+     "name": "R2 storage",
+     "re": "r2_buckets|R2Bucket"
+    },
+    {
+     "name": "KV",
+     "re": "kv_namespaces|KVNamespace"
+    },
+    {
+     "name": "D1 database",
+     "re": "d1_databases|D1Database"
+    },
+    {
+     "name": "Turnstile",
+     "re": "turnstile"
+    }
+   ]
+  },
+  {
+   "id": "aws",
+   "name": "AWS",
+   "product_id": "aws",
+   "category": "Hosting",
+   "npm": [
+    "@aws-sdk/*",
+    "aws-sdk"
+   ],
+   "pypi": [
+    "boto3"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^AWS_"
+   ],
+   "files": [
+    "serverless.yml",
+    "cdk.json",
+    "template.yaml",
+    "samconfig.toml"
+   ],
+   "hosts": [],
+   "features": [
+    {
+     "name": "S3 storage",
+     "re": "client-s3|S3Client|client\\(['\\\"]s3"
+    },
+    {
+     "name": "Lambda",
+     "re": "client-lambda|handler:|aws_lambda"
+    },
+    {
+     "name": "DynamoDB",
+     "re": "client-dynamodb|dynamodb"
+    },
+    {
+     "name": "SQS queues",
+     "re": "client-sqs|sqs"
+    }
+   ]
+  },
+  {
+   "id": "digitalocean",
+   "name": "DigitalOcean",
+   "product_id": "digitalocean",
+   "category": "Hosting",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^(DIGITALOCEAN|DO_SPACES)"
+   ],
+   "files": [
+    ".do/app.yaml"
+   ],
+   "hosts": [
+    "digitaloceanspaces\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "posthog",
+   "name": "PostHog",
+   "product_id": "posthog",
+   "category": "Analytics",
+   "npm": [
+    "posthog-js",
+    "posthog-node"
+   ],
+   "pypi": [
+    "posthog"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "POSTHOG"
+   ],
+   "files": [],
+   "hosts": [
+    "(us|eu|app)\\.(i\\.)?posthog\\.com"
+   ],
+   "features": [
+    {
+     "name": "Product analytics",
+     "re": "\\.capture\\("
+    },
+    {
+     "name": "Feature flags",
+     "re": "isFeatureEnabled|getFeatureFlag|useFeatureFlag"
+    },
+    {
+     "name": "Session replay",
+     "re": "session_recording|startSessionRecording|disable_session_recording:\\s*false"
+    },
+    {
+     "name": "Surveys",
+     "re": "surveys"
+    },
+    {
+     "name": "Experiments",
+     "re": "getFeatureFlagPayload|experiment"
+    }
+   ]
+  },
+  {
+   "id": "mixpanel",
+   "name": "Mixpanel",
+   "product_id": "mixpanel",
+   "category": "Analytics",
+   "npm": [
+    "mixpanel-browser",
+    "mixpanel"
+   ],
+   "pypi": [
+    "mixpanel"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "MIXPANEL"
+   ],
+   "files": [],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Event tracking",
+     "re": "\\.track\\("
+    },
+    {
+     "name": "User profiles",
+     "re": "people\\.set"
+    }
+   ]
+  },
+  {
+   "id": "amplitude",
+   "name": "Amplitude",
+   "product_id": "amplitude",
+   "category": "Analytics",
+   "npm": [
+    "@amplitude/analytics-browser",
+    "@amplitude/analytics-node",
+    "amplitude-js",
+    "@amplitude/experiment-js-client"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "AMPLITUDE"
+   ],
+   "files": [],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Event tracking",
+     "re": "\\btrack\\(|logEvent"
+    },
+    {
+     "name": "Experiments",
+     "re": "experiment"
+    }
+   ]
+  },
+  {
+   "id": "plausible",
+   "name": "Plausible",
+   "product_id": "plausible",
+   "category": "Analytics",
+   "npm": [
+    "plausible-tracker",
+    "next-plausible"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [],
+   "files": [],
+   "hosts": [
+    "plausible\\.io/js"
+   ],
+   "features": [
+    {
+     "name": "Pageviews",
+     "re": "plausible\\.io/js|PlausibleProvider"
+    },
+    {
+     "name": "Custom events",
+     "re": "plausible\\(|usePlausible"
+    }
+   ]
+  },
+  {
+   "id": "umami",
+   "name": "Umami",
+   "product_id": "umami",
+   "category": "Analytics",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [],
+   "files": [],
+   "hosts": [
+    "cloud\\.umami\\.is",
+    "umami\\.[a-z]+/script\\.js"
+   ],
+   "features": [
+    {
+     "name": "Pageviews",
+     "re": "data-website-id"
+    },
+    {
+     "name": "Custom events",
+     "re": "umami\\.track"
+    }
+   ]
+  },
+  {
+   "id": "google_analytics",
+   "name": "Google Analytics",
+   "product_id": null,
+   "category": "Analytics",
+   "npm": [
+    "react-ga4",
+    "@next/third-parties"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [],
+   "files": [],
+   "hosts": [
+    "googletagmanager\\.com/gtag",
+    "google-analytics\\.com"
+   ],
+   "features": [
+    {
+     "name": "Pageviews",
+     "re": "gtag\\(|GoogleAnalytics"
+    }
+   ]
+  },
+  {
+   "id": "sentry",
+   "name": "Sentry",
+   "product_id": "sentry",
+   "category": "Monitoring",
+   "npm": [
+    "@sentry/nextjs",
+    "@sentry/node",
+    "@sentry/react",
+    "@sentry/browser",
+    "@sentry/vue",
+    "@sentry/sveltekit",
+    "@sentry/remix",
+    "@sentry/bun"
+   ],
+   "pypi": [
+    "sentry-sdk"
+   ],
+   "gem": [
+    "sentry-ruby"
+   ],
+   "go": [],
+   "env": [
+    "SENTRY_"
+   ],
+   "files": [
+    "sentry.client.config.ts",
+    "sentry.server.config.ts",
+    "sentry.edge.config.ts",
+    ".sentryclirc",
+    "sentry.properties"
+   ],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Error tracking",
+     "re": "Sentry\\.init|sentry_sdk\\.init|captureException"
+    },
+    {
+     "name": "Performance tracing",
+     "re": "tracesSampleRate|traces_sample_rate"
+    },
+    {
+     "name": "Session replay",
+     "re": "replaysSessionSampleRate|replayIntegration|new Replay"
+    },
+    {
+     "name": "Profiling",
+     "re": "profilesSampleRate|profiles_sample_rate"
+    },
+    {
+     "name": "Cron monitors",
+     "re": "captureCheckIn|withMonitor"
+    }
+   ]
+  },
+  {
+   "id": "better_stack",
+   "name": "Better Stack",
+   "product_id": "better_stack",
+   "category": "Monitoring",
+   "npm": [
+    "@logtail/node",
+    "@logtail/js",
+    "@logtail/next",
+    "@logtail/pino",
+    "@logtail/winston"
+   ],
+   "pypi": [
+    "logtail-python"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "(BETTER_?STACK|LOGTAIL)"
+   ],
+   "files": [],
+   "hosts": [
+    "in\\.logs\\.betterstack\\.com",
+    "uptime\\.betterstack\\.com/api",
+    "in\\.logtail\\.com"
+   ],
+   "features": [
+    {
+     "name": "Logs",
+     "re": "Logtail|logtail"
+    },
+    {
+     "name": "Uptime API",
+     "re": "uptime\\.betterstack"
+    }
+   ]
+  },
+  {
+   "id": "uptimerobot",
+   "name": "UptimeRobot",
+   "product_id": "uptimerobot",
+   "category": "Monitoring",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "UPTIMEROBOT"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.uptimerobot\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "statuspage",
+   "name": "Statuspage",
+   "product_id": "statuspage",
+   "category": "Status pages",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^STATUSPAGE_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.statuspage\\.io",
+    "\\.statuspage\\.io"
+   ],
+   "features": [
+    {
+     "name": "Incidents API",
+     "re": "incidents"
+    }
+   ]
+  },
+  {
+   "id": "openai_api",
+   "name": "OpenAI API",
+   "product_id": "openai_api",
+   "category": "AI APIs",
+   "npm": [
+    "openai",
+    "@ai-sdk/openai"
+   ],
+   "pypi": [
+    "openai"
+   ],
+   "gem": [
+    "ruby-openai"
+   ],
+   "go": [],
+   "env": [
+    "^OPENAI_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.openai\\.com"
+   ],
+   "features": [
+    {
+     "name": "Chat and responses",
+     "re": "chat\\.completions|responses\\.create|openai\\(['\\\"]gpt"
+    },
+    {
+     "name": "Embeddings",
+     "re": "embeddings\\.create|text-embedding"
+    },
+    {
+     "name": "Images",
+     "re": "images\\.(generate|edit)|gpt-image|dall-e"
+    },
+    {
+     "name": "Speech to text",
+     "re": "audio\\.transcriptions|whisper-1"
+    },
+    {
+     "name": "Text to speech",
+     "re": "audio\\.speech|tts-1"
+    },
+    {
+     "name": "Realtime voice",
+     "re": "realtime"
+    },
+    {
+     "name": "Assistants",
+     "re": "beta\\.assistants|beta\\.threads"
+    }
+   ]
+  },
+  {
+   "id": "anthropic_api",
+   "name": "Anthropic API",
+   "product_id": "anthropic_api",
+   "category": "AI APIs",
+   "npm": [
+    "@anthropic-ai/sdk",
+    "@ai-sdk/anthropic"
+   ],
+   "pypi": [
+    "anthropic"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^ANTHROPIC_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.anthropic\\.com"
+   ],
+   "features": [
+    {
+     "name": "Messages",
+     "re": "messages\\.(create|stream)|anthropic\\(['\\\"]claude"
+    },
+    {
+     "name": "Batches",
+     "re": "batches\\.create|message_batches"
+    },
+    {
+     "name": "Tool use",
+     "re": "tool_use|tool_choice"
+    }
+   ]
+  },
+  {
+   "id": "openrouter",
+   "name": "OpenRouter",
+   "product_id": "openrouter",
+   "category": "AI APIs",
+   "npm": [
+    "@openrouter/ai-sdk-provider"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^OPENROUTER_"
+   ],
+   "files": [],
+   "hosts": [
+    "openrouter\\.ai/api"
+   ],
+   "features": [
+    {
+     "name": "Chat completions",
+     "re": "chat/completions|createOpenRouter"
+    }
+   ]
+  },
+  {
+   "id": "deepseek_api",
+   "name": "DeepSeek API",
+   "product_id": "deepseek_api",
+   "category": "AI APIs",
+   "npm": [
+    "@ai-sdk/deepseek"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^DEEPSEEK_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.deepseek\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "replicate",
+   "name": "Replicate",
+   "product_id": "replicate",
+   "category": "AI APIs",
+   "npm": [
+    "replicate"
+   ],
+   "pypi": [
+    "replicate"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^REPLICATE_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.replicate\\.com"
+   ],
+   "features": [
+    {
+     "name": "Run models",
+     "re": "replicate\\.run|predictions\\.create"
+    }
+   ]
+  },
+  {
+   "id": "fal",
+   "name": "fal",
+   "product_id": "fal",
+   "category": "AI APIs",
+   "npm": [
+    "@fal-ai/client",
+    "@fal-ai/serverless-client"
+   ],
+   "pypi": [
+    "fal-client"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^FAL_KEY"
+   ],
+   "files": [],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Run models",
+     "re": "fal\\.(subscribe|run|queue)"
+    }
+   ]
+  },
+  {
+   "id": "elevenlabs",
+   "name": "ElevenLabs",
+   "product_id": "elevenlabs",
+   "category": "AI APIs",
+   "npm": [
+    "elevenlabs",
+    "@elevenlabs/elevenlabs-js",
+    "@11labs/client"
+   ],
+   "pypi": [
+    "elevenlabs"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "ELEVEN_?LABS"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.elevenlabs\\.io"
+   ],
+   "features": [
+    {
+     "name": "Text to speech",
+     "re": "textToSpeech|text_to_speech|convert\\("
+    },
+    {
+     "name": "Voice cloning",
+     "re": "voices\\.(add|ivc)|clone"
+    },
+    {
+     "name": "Speech to text",
+     "re": "speechToText|speech_to_text"
+    },
+    {
+     "name": "Conversational agents",
+     "re": "convai|conversation"
+    }
+   ]
+  },
+  {
+   "id": "browserbase",
+   "name": "Browserbase",
+   "product_id": "browserbase",
+   "category": "AI agent infra",
+   "npm": [
+    "@browserbasehq/sdk",
+    "@browserbasehq/stagehand"
+   ],
+   "pypi": [
+    "browserbase",
+    "stagehand"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^BROWSERBASE_"
+   ],
+   "files": [],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Browser sessions",
+     "re": "sessions\\.create"
+    },
+    {
+     "name": "Stagehand agent",
+     "re": "Stagehand"
+    }
+   ]
+  },
+  {
+   "id": "e2b",
+   "name": "E2B",
+   "product_id": "e2b",
+   "category": "AI agent infra",
+   "npm": [
+    "e2b",
+    "@e2b/code-interpreter"
+   ],
+   "pypi": [
+    "e2b",
+    "e2b-code-interpreter"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^E2B_"
+   ],
+   "files": [],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Code sandboxes",
+     "re": "Sandbox\\.create|Sandbox\\("
+    }
+   ]
+  },
+  {
+   "id": "serpapi",
+   "name": "SerpApi",
+   "product_id": "serpapi",
+   "category": "SEO data",
+   "npm": [
+    "serpapi",
+    "google-search-results-nodejs"
+   ],
+   "pypi": [
+    "google-search-results",
+    "serpapi"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "SERP_?API"
+   ],
+   "files": [],
+   "hosts": [
+    "serpapi\\.com"
+   ],
+   "features": [
+    {
+     "name": "Google search results",
+     "re": "getJson|GoogleSearch|engine"
+    }
+   ]
+  },
+  {
+   "id": "serper",
+   "name": "Serper",
+   "product_id": "serper",
+   "category": "SEO data",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^SERPER_"
+   ],
+   "files": [],
+   "hosts": [
+    "google\\.serper\\.dev"
+   ],
+   "features": [
+    {
+     "name": "Google search results",
+     "re": "serper\\.dev/search"
+    }
+   ]
+  },
+  {
+   "id": "dataforseo",
+   "name": "DataForSEO",
+   "product_id": "dataforseo",
+   "category": "SEO data",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^DATAFORSEO_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.dataforseo\\.com"
+   ],
+   "features": [
+    {
+     "name": "SERP data",
+     "re": "serp/"
+    },
+    {
+     "name": "Keyword data",
+     "re": "keywords_data|dataforseo_labs"
+    }
+   ]
+  },
+  {
+   "id": "semrush",
+   "name": "Semrush",
+   "product_id": "semrush",
+   "category": "SEO data",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^SEMRUSH_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.semrush\\.com"
+   ],
+   "features": [
+    {
+     "name": "Keyword data",
+     "re": "phrase_"
+    },
+    {
+     "name": "Domain data",
+     "re": "domain_"
+    }
+   ]
+  },
+  {
+   "id": "ahrefs",
+   "name": "Ahrefs",
+   "product_id": "ahrefs",
+   "category": "SEO data",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^AHREFS_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.ahrefs\\.com"
+   ],
+   "features": [
+    {
+     "name": "Backlinks",
+     "re": "backlinks"
+    },
+    {
+     "name": "Keywords",
+     "re": "keywords"
+    }
+   ]
+  },
+  {
+   "id": "hunter",
+   "name": "Hunter",
+   "product_id": "hunter",
+   "category": "Lead data",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^HUNTER_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.hunter\\.io"
+   ],
+   "features": [
+    {
+     "name": "Email finder",
+     "re": "email-finder"
+    },
+    {
+     "name": "Email verifier",
+     "re": "email-verifier"
+    },
+    {
+     "name": "Domain search",
+     "re": "domain-search"
+    }
+   ]
+  },
+  {
+   "id": "clay",
+   "name": "Clay",
+   "product_id": "clay",
+   "category": "Lead data",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^CLAY_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.clay\\.com",
+    "clay\\.com/api"
+   ],
+   "features": [
+    {
+     "name": "Table webhooks",
+     "re": "webhook"
+    }
+   ]
+  },
+  {
+   "id": "apollo",
+   "name": "Apollo",
+   "product_id": "apollo",
+   "category": "Lead data",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^APOLLO_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.apollo\\.io"
+   ],
+   "features": [
+    {
+     "name": "People search",
+     "re": "mixed_people|people/match"
+    },
+    {
+     "name": "Enrichment",
+     "re": "organizations/enrich"
+    }
+   ]
+  },
+  {
+   "id": "lusha",
+   "name": "Lusha",
+   "product_id": "lusha",
+   "category": "Lead data",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^LUSHA_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.lusha\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "typeform",
+   "name": "Typeform",
+   "product_id": "typeform",
+   "category": "Forms",
+   "npm": [
+    "@typeform/embed",
+    "@typeform/embed-react"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^TYPEFORM_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.typeform\\.com",
+    "form\\.typeform\\.com",
+    "\\.typeform\\.com/to/"
+   ],
+   "features": [
+    {
+     "name": "Embedded forms",
+     "re": "@typeform/embed|data-tf-|typeform\\.com/to/"
+    },
+    {
+     "name": "Responses API",
+     "re": "/responses"
+    },
+    {
+     "name": "Webhooks",
+     "re": "typeform-signature|webhooks"
+    }
+   ]
+  },
+  {
+   "id": "tally",
+   "name": "Tally",
+   "product_id": "tally",
+   "category": "Forms",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [],
+   "files": [],
+   "hosts": [
+    "tally\\.so/(embed|r)/"
+   ],
+   "features": [
+    {
+     "name": "Embedded forms",
+     "re": "tally\\.so"
+    }
+   ]
+  },
+  {
+   "id": "jotform",
+   "name": "Jotform",
+   "product_id": "jotform",
+   "category": "Forms",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^JOTFORM_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.jotform\\.com",
+    "form\\.jotform\\.com"
+   ],
+   "features": [
+    {
+     "name": "Embedded forms",
+     "re": "jotform"
+    }
+   ]
+  },
+  {
+   "id": "paperform",
+   "name": "Paperform",
+   "product_id": "paperform",
+   "category": "Forms",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [],
+   "files": [],
+   "hosts": [
+    "paperform\\.co"
+   ],
+   "features": [
+    {
+     "name": "Embedded forms",
+     "re": "paperform"
+    }
+   ]
+  },
+  {
+   "id": "calendly",
+   "name": "Calendly",
+   "product_id": "calendly",
+   "category": "Scheduling",
+   "npm": [
+    "react-calendly"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^CALENDLY_"
+   ],
+   "files": [],
+   "hosts": [
+    "calendly\\.com/",
+    "assets\\.calendly\\.com",
+    "api\\.calendly\\.com"
+   ],
+   "features": [
+    {
+     "name": "Booking embed",
+     "re": "react-calendly|Calendly\\.init|calendly\\.com/"
+    },
+    {
+     "name": "Scheduling API",
+     "re": "api\\.calendly\\.com"
+    },
+    {
+     "name": "Webhooks",
+     "re": "webhook_subscriptions"
+    }
+   ]
+  },
+  {
+   "id": "cal_com",
+   "name": "Cal.com",
+   "product_id": "cal_com",
+   "category": "Scheduling",
+   "npm": [
+    "@calcom/embed-react",
+    "@calcom/embed-snippet",
+    "@calcom/atoms"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [],
+   "files": [],
+   "hosts": [
+    "app\\.cal\\.com",
+    "cal\\.com/embed"
+   ],
+   "features": [
+    {
+     "name": "Booking embed",
+     "re": "@calcom/embed|Cal\\("
+    }
+   ]
+  },
+  {
+   "id": "intercom",
+   "name": "Intercom",
+   "product_id": "intercom",
+   "category": "Support",
+   "npm": [
+    "@intercom/messenger-js-sdk",
+    "react-use-intercom",
+    "intercom-client"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^INTERCOM_"
+   ],
+   "files": [],
+   "hosts": [
+    "widget\\.intercom\\.io",
+    "api\\.intercom\\.io"
+   ],
+   "features": [
+    {
+     "name": "Chat widget",
+     "re": "Intercom\\(|intercomSettings|IntercomProvider|boot\\("
+    },
+    {
+     "name": "Contacts API",
+     "re": "contacts\\.(create|update)|/contacts"
+    },
+    {
+     "name": "Help center",
+     "re": "articles"
+    }
+   ]
+  },
+  {
+   "id": "zendesk",
+   "name": "Zendesk",
+   "product_id": "zendesk",
+   "category": "Support",
+   "npm": [
+    "node-zendesk"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^ZENDESK_"
+   ],
+   "files": [],
+   "hosts": [
+    "static\\.zdassets\\.com",
+    "\\.zendesk\\.com/api"
+   ],
+   "features": [
+    {
+     "name": "Chat widget",
+     "re": "zdassets|zE\\("
+    },
+    {
+     "name": "Tickets API",
+     "re": "tickets"
+    }
+   ]
+  },
+  {
+   "id": "help_scout",
+   "name": "Help Scout",
+   "product_id": "help_scout",
+   "category": "Support",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^HELPSCOUT_"
+   ],
+   "files": [],
+   "hosts": [
+    "beacon-v2\\.helpscout\\.net",
+    "api\\.helpscout\\.net"
+   ],
+   "features": [
+    {
+     "name": "Beacon widget",
+     "re": "Beacon\\("
+    },
+    {
+     "name": "Mailbox API",
+     "re": "conversations"
+    }
+   ]
+  },
+  {
+   "id": "front",
+   "name": "Front",
+   "product_id": "front",
+   "category": "Support",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^FRONT_"
+   ],
+   "files": [],
+   "hosts": [
+    "api2\\.frontapp\\.com"
+   ],
+   "features": [
+    {
+     "name": "Conversations API",
+     "re": "conversations"
+    }
+   ]
+  },
+  {
+   "id": "hubspot_sales_hub",
+   "name": "HubSpot",
+   "product_id": "hubspot_sales_hub",
+   "category": "CRM",
+   "npm": [
+    "@hubspot/api-client"
+   ],
+   "pypi": [
+    "hubspot-api-client"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^HUBSPOT_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.hubapi\\.com",
+    "js\\.hs-scripts\\.com",
+    "js\\.hsforms\\.net"
+   ],
+   "features": [
+    {
+     "name": "Contacts",
+     "re": "crm\\.contacts|objects/contacts"
+    },
+    {
+     "name": "Deals",
+     "re": "crm\\.deals|objects/deals"
+    },
+    {
+     "name": "Forms and tracking",
+     "re": "hs-scripts|hsforms|_hsq"
+    }
+   ]
+  },
+  {
+   "id": "salesforce",
+   "name": "Salesforce",
+   "product_id": "salesforce",
+   "category": "CRM",
+   "npm": [
+    "jsforce"
+   ],
+   "pypi": [
+    "simple-salesforce"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^(SALESFORCE|SF)_"
+   ],
+   "files": [],
+   "hosts": [
+    "\\.my\\.salesforce\\.com",
+    "login\\.salesforce\\.com"
+   ],
+   "features": [
+    {
+     "name": "SOQL queries",
+     "re": "\\.query\\(['\\\"`]SELECT|SELECT .* FROM"
+    },
+    {
+     "name": "Record writes",
+     "re": "sobject\\([^)]*\\)\\.(create|update|upsert)"
+    }
+   ]
+  },
+  {
+   "id": "pipedrive",
+   "name": "Pipedrive",
+   "product_id": "pipedrive",
+   "category": "CRM",
+   "npm": [
+    "pipedrive"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^PIPEDRIVE_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.pipedrive\\.com"
+   ],
+   "features": [
+    {
+     "name": "Deals",
+     "re": "deals"
+    },
+    {
+     "name": "Persons",
+     "re": "persons"
+    }
+   ]
+  },
+  {
+   "id": "airtable",
+   "name": "Airtable",
+   "product_id": "airtable",
+   "category": "Internal data",
+   "npm": [
+    "airtable"
+   ],
+   "pypi": [
+    "pyairtable",
+    "airtable-python-wrapper"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^AIRTABLE_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.airtable\\.com"
+   ],
+   "features": [
+    {
+     "name": "Read records",
+     "re": "\\.select\\(|list_records|table\\.all\\(|firstPage\\(|api\\.airtable\\.com/v0"
+    },
+    {
+     "name": "Write records",
+     "re": "\\.(create|update|replace|destroy)\\(\\s*\\[|batch_(create|update)|table\\.(create|update)\\("
+    },
+    {
+     "name": "Webhooks",
+     "re": "airtable\\.com/v0/bases/[^/]+/webhooks"
+    }
+   ]
+  },
+  {
+   "id": "notion",
+   "name": "Notion",
+   "product_id": "notion",
+   "category": "Knowledge",
+   "npm": [
+    "@notionhq/client"
+   ],
+   "pypi": [
+    "notion-client"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^NOTION_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.notion\\.com"
+   ],
+   "features": [
+    {
+     "name": "Query databases",
+     "re": "databases\\.query|data_sources\\.query"
+    },
+    {
+     "name": "Create pages",
+     "re": "pages\\.create"
+    },
+    {
+     "name": "Read blocks",
+     "re": "blocks\\.children"
+    }
+   ]
+  },
+  {
+   "id": "zapier",
+   "name": "Zapier",
+   "product_id": "zapier",
+   "category": "Automation",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^ZAPIER_"
+   ],
+   "files": [],
+   "hosts": [
+    "hooks\\.zapier\\.com"
+   ],
+   "features": [
+    {
+     "name": "Webhook triggers",
+     "re": "hooks\\.zapier\\.com"
+    }
+   ]
+  },
+  {
+   "id": "make",
+   "name": "Make",
+   "product_id": "make",
+   "category": "Automation",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^MAKE_"
+   ],
+   "files": [],
+   "hosts": [
+    "hook\\.(eu1|us1|eu2|us2)\\.make\\.com",
+    "hook\\.integromat\\.com"
+   ],
+   "features": [
+    {
+     "name": "Webhook triggers",
+     "re": "make\\.com|integromat"
+    }
+   ]
+  },
+  {
+   "id": "n8n",
+   "name": "n8n",
+   "product_id": "n8n",
+   "category": "Automation",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^N8N_"
+   ],
+   "files": [],
+   "hosts": [
+    "n8n\\.[a-z0-9.-]+/webhook",
+    "app\\.n8n\\.cloud"
+   ],
+   "features": [
+    {
+     "name": "Webhook triggers",
+     "re": "/webhook/"
+    }
+   ]
+  },
+  {
+   "id": "bannerbear",
+   "name": "Bannerbear",
+   "product_id": "bannerbear",
+   "category": "Media automation",
+   "npm": [
+    "bannerbear"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^BANNERBEAR_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.bannerbear\\.com"
+   ],
+   "features": [
+    {
+     "name": "Template images",
+     "re": "images|create_image|createImage"
+    },
+    {
+     "name": "Video",
+     "re": "videos"
+    }
+   ]
+  },
+  {
+   "id": "placid",
+   "name": "Placid",
+   "product_id": "placid",
+   "category": "Media automation",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^PLACID_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.placid\\.app"
+   ],
+   "features": [
+    {
+     "name": "Template images",
+     "re": "images"
+    },
+    {
+     "name": "PDFs",
+     "re": "pdfs"
+    }
+   ]
+  },
+  {
+   "id": "docusign",
+   "name": "Docusign",
+   "product_id": "docusign",
+   "category": "Documents",
+   "npm": [
+    "docusign-esign"
+   ],
+   "pypi": [
+    "docusign-esign"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^DOCUSIGN_"
+   ],
+   "files": [],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Envelopes (signing)",
+     "re": "EnvelopesApi|envelopes"
+    }
+   ]
+  },
+  {
+   "id": "pandadoc",
+   "name": "PandaDoc",
+   "product_id": "pandadoc",
+   "category": "Documents",
+   "npm": [
+    "pandadoc-node-client"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^PANDADOC_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.pandadoc\\.com"
+   ],
+   "features": [
+    {
+     "name": "Documents API",
+     "re": "documents"
+    }
+   ]
+  },
+  {
+   "id": "bitly",
+   "name": "Bitly",
+   "product_id": "bitly",
+   "category": "Links",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^BITLY_"
+   ],
+   "files": [],
+   "hosts": [
+    "api-ssl\\.bitly\\.com"
+   ],
+   "features": [
+    {
+     "name": "Shorten links",
+     "re": "shorten|bitlinks"
+    }
+   ]
+  },
+  {
+   "id": "dub",
+   "name": "Dub",
+   "product_id": "dub",
+   "category": "Links",
+   "npm": [
+    "dub"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^DUB_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.dub\\.co"
+   ],
+   "features": [
+    {
+     "name": "Shorten links",
+     "re": "links\\.create"
+    }
+   ]
+  },
+  {
+   "id": "slack",
+   "name": "Slack",
+   "product_id": "slack",
+   "category": "Team chat",
+   "npm": [
+    "@slack/web-api",
+    "@slack/bolt",
+    "@slack/webhook"
+   ],
+   "pypi": [
+    "slack_sdk",
+    "slack-bolt"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^SLACK_"
+   ],
+   "files": [],
+   "hosts": [
+    "hooks\\.slack\\.com",
+    "slack\\.com/api"
+   ],
+   "features": [
+    {
+     "name": "Incoming webhooks",
+     "re": "hooks\\.slack\\.com"
+    },
+    {
+     "name": "Bot messages",
+     "re": "chat\\.postMessage|chat_postMessage"
+    },
+    {
+     "name": "Slash commands and apps",
+     "re": "@slack/bolt|slack_bolt|App\\("
+    }
+   ]
+  },
+  {
+   "id": "linear",
+   "name": "Linear",
+   "product_id": "linear",
+   "category": "Work management",
+   "npm": [
+    "@linear/sdk"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^LINEAR_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.linear\\.app"
+   ],
+   "features": [
+    {
+     "name": "Create issues",
+     "re": "createIssue|issueCreate"
+    }
+   ]
+  },
+  {
+   "id": "loom",
+   "name": "Loom",
+   "product_id": "loom",
+   "category": "Video recording",
+   "npm": [
+    "@loomhq/record-sdk",
+    "@loomhq/loom-embed"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [],
+   "files": [],
+   "hosts": [
+    "loom\\.com/(embed|share)"
+   ],
+   "features": [
+    {
+     "name": "Embedded videos",
+     "re": "loom\\.com/(embed|share)"
+    },
+    {
+     "name": "Record SDK",
+     "re": "record-sdk|setupRecord"
+    }
+   ]
+  },
+  {
+   "id": "zoom",
+   "name": "Zoom",
+   "product_id": "zoom",
+   "category": "Video meetings",
+   "npm": [
+    "@zoom/meetingsdk",
+    "@zoom/videosdk"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^ZOOM_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.zoom\\.us"
+   ],
+   "features": [
+    {
+     "name": "Meetings API",
+     "re": "meetings"
+    },
+    {
+     "name": "Embedded meetings",
+     "re": "meetingsdk|videosdk"
+    }
+   ]
+  },
+  {
+   "id": "dropbox",
+   "name": "Dropbox",
+   "product_id": "dropbox",
+   "category": "Cloud storage",
+   "npm": [
+    "dropbox"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^DROPBOX_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.dropboxapi\\.com",
+    "content\\.dropboxapi\\.com"
+   ],
+   "features": [
+    {
+     "name": "Files API",
+     "re": "files(Upload|Download|ListFolder)|files/"
+    }
+   ]
+  },
+  {
+   "id": "figma",
+   "name": "Figma",
+   "product_id": "figma",
+   "category": "Design",
+   "npm": [
+    "figma-api",
+    "@figma/rest-api-spec"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^FIGMA_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.figma\\.com"
+   ],
+   "features": [
+    {
+     "name": "Files API",
+     "re": "/files/"
+    }
+   ]
+  },
+  {
+   "id": "webflow",
+   "name": "Webflow",
+   "product_id": "webflow",
+   "category": "Landing pages",
+   "npm": [
+    "webflow-api"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^WEBFLOW_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.webflow\\.com"
+   ],
+   "features": [
+    {
+     "name": "CMS API",
+     "re": "collections|items"
+    }
+   ]
+  },
+  {
+   "id": "twilio",
+   "name": "Twilio",
+   "product_id": null,
+   "category": "Messaging",
+   "npm": [
+    "twilio"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^TWILIO_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.twilio\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "algolia",
+   "name": "Algolia",
+   "product_id": null,
+   "category": "Search",
+   "npm": [
+    "algoliasearch",
+    "react-instantsearch",
+    "@algolia/client-search"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^ALGOLIA_"
+   ],
+   "files": [],
+   "hosts": [
+    "algolia\\.net"
+   ],
+   "features": []
+  },
+  {
+   "id": "clerk",
+   "name": "Clerk",
+   "product_id": null,
+   "category": "Auth",
+   "npm": [
+    "@clerk/nextjs",
+    "@clerk/clerk-react",
+    "@clerk/backend",
+    "@clerk/express"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^CLERK_",
+    "NEXT_PUBLIC_CLERK"
+   ],
+   "files": [],
+   "hosts": [
+    "clerk\\.accounts\\.dev"
+   ],
+   "features": []
+  },
+  {
+   "id": "auth0",
+   "name": "Auth0",
+   "product_id": null,
+   "category": "Auth",
+   "npm": [
+    "@auth0/nextjs-auth0",
+    "@auth0/auth0-react",
+    "auth0"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^AUTH0_"
+   ],
+   "files": [],
+   "hosts": [
+    "\\.auth0\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "firebase",
+   "name": "Firebase",
+   "product_id": null,
+   "category": "Databases",
+   "npm": [
+    "firebase",
+    "firebase-admin"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "FIREBASE_"
+   ],
+   "files": [],
+   "hosts": [
+    "firebaseio\\.com",
+    "firebaseapp\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "pusher",
+   "name": "Pusher",
+   "product_id": null,
+   "category": "Realtime",
+   "npm": [
+    "pusher",
+    "pusher-js"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^PUSHER_"
+   ],
+   "files": [],
+   "hosts": [
+    "pusher\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "upstash",
+   "name": "Upstash",
+   "product_id": null,
+   "category": "Databases",
+   "npm": [
+    "@upstash/redis",
+    "@upstash/ratelimit",
+    "@upstash/qstash"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^UPSTASH_"
+   ],
+   "files": [],
+   "hosts": [
+    "upstash\\.io"
+   ],
+   "features": []
+  },
+  {
+   "id": "pinecone",
+   "name": "Pinecone",
+   "product_id": null,
+   "category": "Vector DB",
+   "npm": [
+    "@pinecone-database/pinecone"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^PINECONE_"
+   ],
+   "files": [],
+   "hosts": [
+    "pinecone\\.io"
+   ],
+   "features": []
+  },
+  {
+   "id": "cloudinary",
+   "name": "Cloudinary",
+   "product_id": null,
+   "category": "Media",
+   "npm": [
+    "cloudinary",
+    "next-cloudinary"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^CLOUDINARY_"
+   ],
+   "files": [],
+   "hosts": [
+    "res\\.cloudinary\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "mux",
+   "name": "Mux",
+   "product_id": null,
+   "category": "Video",
+   "npm": [
+    "@mux/mux-node",
+    "@mux/mux-player-react"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^MUX_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.mux\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "uploadthing",
+   "name": "UploadThing",
+   "product_id": null,
+   "category": "Media",
+   "npm": [
+    "uploadthing",
+    "@uploadthing/react"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^UPLOADTHING_"
+   ],
+   "files": [],
+   "hosts": [
+    "uploadthing\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "segment",
+   "name": "Segment",
+   "product_id": null,
+   "category": "Analytics",
+   "npm": [
+    "@segment/analytics-next",
+    "@segment/analytics-node",
+    "analytics-node"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^SEGMENT_"
+   ],
+   "files": [],
+   "hosts": [
+    "cdn\\.segment\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "launchdarkly",
+   "name": "LaunchDarkly",
+   "product_id": null,
+   "category": "Feature flags",
+   "npm": [
+    "launchdarkly-js-client-sdk",
+    "@launchdarkly/node-server-sdk",
+    "launchdarkly-react-client-sdk"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^LAUNCHDARKLY_",
+    "^LD_"
+   ],
+   "files": [],
+   "hosts": [],
+   "features": []
+  },
+  {
+   "id": "mapbox",
+   "name": "Mapbox",
+   "product_id": null,
+   "category": "Maps",
+   "npm": [
+    "mapbox-gl",
+    "react-map-gl",
+    "@mapbox/mapbox-sdk"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "MAPBOX"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.mapbox\\.com"
+   ],
+   "features": []
+  },
+  {
+   "id": "inngest",
+   "name": "Inngest",
+   "product_id": null,
+   "category": "Background jobs",
+   "npm": [
+    "inngest"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^INNGEST_"
+   ],
+   "files": [],
+   "hosts": [],
+   "features": []
+  },
+  {
+   "id": "trigger_dev",
+   "name": "Trigger.dev",
+   "product_id": null,
+   "category": "Background jobs",
+   "npm": [
+    "@trigger.dev/sdk"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^TRIGGER_"
+   ],
+   "files": [],
+   "hosts": [],
+   "features": []
+  }
+ ]
+}
