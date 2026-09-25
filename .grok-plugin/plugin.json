@@ -6,7 +6,7 @@
     "name": "Stackcut",
     "url": "https://stackcut.io"
   },
-  "repository": "https://github.com/msanchezgrice/stackcut-plugin",
+  "repository": "https://github.com/Stackcut/stackcut-plugin",
   "homepage": "https://stackcut.io/grok",
   "license": "MIT",
   "keywords": ["stackcut", "stackcut plan", "stackcut savings"]

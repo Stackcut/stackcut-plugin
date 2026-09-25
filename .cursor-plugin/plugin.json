@@ -8,7 +8,7 @@
   },
   "publisher": "Stackcut",
   "homepage": "https://stackcut.io/grok",
-  "repository": "https://github.com/msanchezgrice/stackcut-plugin",
+  "repository": "https://github.com/Stackcut/stackcut-plugin",
   "license": "MIT",
   "logo": "assets/logo.svg",
   "category": "productivity",
