@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "stackcut": {
+      "type": "http",
+      "url": "https://stackcut.io/mcp",
+      "note": "Stackcut hosted MCP server. No auth and no API key. Read-only catalog tools (recipes, alternatives, stack prices, detection rules); get_my_plan reads a savings plan only with a user-supplied read-only code (sca_...) that expires in 7 days. Stores no user data."
+    }
+  }
+}

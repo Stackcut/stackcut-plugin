@@ -24,11 +24,19 @@ skill that knows how to use it.
 No API key. The server is free, read-only, and stores no user data; `get_my_plan` reads only a plan you share with a
 code that expires in 7 days and can be revoked.
 
+## Network and credentials
+
+The plugin calls one endpoint, `https://stackcut.io/mcp`, over HTTPS. It needs no credentials. The skill's local
+scanner reads files in the repo you point it at and sends Stackcut only vendor ids, feature names and counts; it never
+reads `.env` files or sends code, file contents or secret values.
+
 ## What's inside
 
 | Path | What |
 |---|---|
-| `.cursor-plugin/plugin.json` | Plugin manifest |
+| `.grok-plugin/plugin.json` | Plugin manifest for Grok Bot and Grok Build (xAI plugin marketplace format) |
+| `.cursor-plugin/plugin.json` | Plugin manifest for the Cursor Marketplace |
+| `.mcp.json` | Remote MCP server, Grok format |
 | `mcp.json` | Remote MCP server: `https://stackcut.io/mcp` (Streamable HTTP) |
 | `skills/stackcut/` | The Stackcut skill, plus a local scanner (`scripts/detect.mjs`) and its rules (`detect.json`) |
 | `assets/logo.svg` | Logo |
