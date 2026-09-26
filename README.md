@@ -28,9 +28,11 @@ a code that expires in 7 days and can be revoked. Details: https://stackcut.io/p
 
 ## Network and credentials
 
-The plugin calls one endpoint, `https://stackcut.io/mcp`, over HTTPS. It needs no credentials. The skill's local
-scanner reads files in the repo you point it at and sends Stackcut only vendor ids, feature names and counts; it never
-reads `.env` files or sends code, file contents or secret values.
+The plugin's MCP server is `https://stackcut.io/mcp` (HTTPS, no credentials). The skill's local scanner reads files in
+the repo you point it at and prints a summary (vendor ids, feature names, counts) that the agent can send to Stackcut;
+it never reads `.env` files, and code, file contents and secret values stay on your machine. With `--latest` the
+scanner also downloads the public detection rules from `https://stackcut.io/data/detect.json`; without it, it uses
+the bundled copy.
 
 ## What's inside
 
