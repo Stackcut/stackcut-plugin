@@ -15,6 +15,9 @@ skill that knows how to use it.
 - **Audit a codebase.** The skill scans a repo locally for paid services and sends Stackcut only vendor and feature
   names, never code or secrets. The audit checks your usage against each plan's limits, finds right-sized plans and
   idle projects to pause, and says what a cheaper plan leaves out.
+- **Baseline a team's stack.** `@stackcut we pay for Notion, Asana and Loom, 8 people: where do we start?` Stackcut asks
+  only for the facts that would change the answer (seats used, the plan, renewal dates, the features the team relies on),
+  highest stakes first, and says where each one lives. Counts and prices only, never names or emails.
 
 ## Install
 

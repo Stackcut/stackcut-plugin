@@ -1,6 +1,6 @@
 ---
 name: stackcut
-description: Find cheaper ways to run the paid services a codebase or team uses, and pick the cheapest stack for a new project. Use when the user asks to cut software or SaaS spend, audit their stack, replace a subscription, work through their Stackcut plan (they have an sca_ code), choose a database/host/email service, find the most cost-effective way to build something, or check alternatives before adding a new paid tool.
+description: Find cheaper ways to run the paid services a codebase or team uses, and pick the cheapest stack for a new project. Use when the user asks to cut software or SaaS spend, audit or baseline their stack, consolidate apps, replace a subscription, work through their Stackcut plan (they have an sca_ code), choose a database/host/email service, find the most cost-effective way to build something, or check alternatives before adding a new paid tool.
 ---
 
 # Stackcut: audit a stack and find cheaper paths
@@ -53,6 +53,21 @@ pay per use, or Replace with AI (a spec a coding agent builds from). Data comes 
    and don't invent a price. Self-host options exclude server cost; don't invent it. Mention `risks` (for example
    holding funds for others) and suggest a professional answer.
 
+## Baseline a team's stack (`start_audit`)
+
+When the decision needs more than the bills (cutting spend across several tools, consolidating apps into fewer tools or
+one build, replacing one tool safely), let the server say which facts to collect. `references/baseline.md` has the loop
+and where each fact usually lives.
+
+1. Ask what the decision is and what you may read; tell the user what you'll send (counts, feature names, prices, dates;
+   roles, never names or emails).
+2. Call `start_audit` with what you already know: `vendors` and `team_size`, or a manifest
+   (schema: https://stackcut.io/schemas/stack-manifest-1.json). With no arguments it returns the playbook and an example.
+3. Collect only the facts in `questions` (each has `why` and `where`). A fact you can't find goes in the manifest's
+   `unknowns` with the reason: it isn't asked again and becomes a stated assumption. Call `start_audit` again.
+4. At `status: "enough"` (usually two or three rounds), call `next.tool` (`audit_stack`) with `next.arguments`. Leave
+   `stack-baseline.md` and `stack-baseline.json` (the manifest) in the user's workspace for the next renewal.
+
 ## Workflow: audit a codebase
 
 1. **Scan the codebase** (local, read-only):
@@ -72,6 +87,11 @@ pay per use, or Replace with AI (a spec a coding agent builds from). Data comes 
    team)? Pass `shared_with` (how many products use it) so the bill isn't counted as this product's. Mark lines the user
    says they pay for with `confirmed: true`; scanner-only lines stay unconfirmed and get a question, not a price. Add
    `last_active`, `active_users` and `revenue_usd_per_month` when you know them: they drive the cleanup and sanity checks.
+   When the user has the invoice, add `billing`: `scope` (dedicated or shared), `account_id` (a non-secret alias),
+   `avoidable_monthly_usd` with `avoidability_confirmed` (what leaving really removes from the bill; 0 is valid),
+   `commitment_months_remaining` and `source`. With `billing`, a path is eligible only once all of these are given. After the
+   user has checked a path's price and capacity themselves, pass `replacement_validation`
+   (`path_id`, `capacity_and_price_confirmed: true`, `source`: where they checked).
    If the MCP server isn't connected, POST JSON-RPC to `https://stackcut.io/mcp`
    (`{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"audit_stack","arguments":{...}}}`).
 5. **Present results per vendor**: status (`eligible`, `needs_info`, `keep`, `no_priced_path`, `no_recipe`), the best path,
@@ -86,13 +106,20 @@ pay per use, or Replace with AI (a spec a coding agent builds from). Data comes 
    - `sanity` flags numbers worth a look before any saving: runaway jobs per user, cost per user, fees against revenue,
      no revenue, unused.
    - Totals come as `confirmed_*` (prices the user gave or confirmed) and `modeled_*` (list prices for plans nobody
-     confirmed). Report them separately; never add them together.
+     confirmed). Report them separately; never add them together. `savings_complete: false` means the total isn't final: some
+     line is `needs_info` or `no_recipe`, is priced from a model, or has unconfirmed billing.
+   - `partial_paths` miss a must-have: their savings are withheld (`null`). Don't present them as replacements.
+   - `suggested_workflow_recipes` point to reviewed end-to-end runbooks (`get_workflow_recipe`): the evidence to collect,
+     decision paths, acceptance tests, rollout and rollback for a whole migration. They are instructions, not results.
 6. **If they pick a path:**
    - Switch / cheaper plan / open source: give the migration steps from `get_recipe`: `how_to_leave` (export first, cancel
      steps, refunds, notice, what you lose), the path's `playbook` (before, setup, migrate, verify, rollback, gotchas) and
      `tested_by_stackcut` when Stackcut has run that path end to end. Cite the sources each step carries.
    - Replace with AI: call `get_build_packet`, write the files into a new folder, and build from `SPEC.md`
-     (acceptance tests first, nothing listed as out of scope).
+     (acceptance tests first, nothing listed as out of scope; read `EVIDENCE.md` and `WORKFLOWS.md` before choosing).
+     A recipe without a build path returns `available: false` with `assessment_files` to decide keep, downsize or switch.
+   - A migration that spans more than one service (hosting, email, auth, queues, storage): `search_workflow_recipes` by
+     the job, then `get_workflow_recipe` for the runbook and any starter templates.
    - Never cancel a subscription, migrate production data, or change billing without the user's explicit go-ahead.
 7. **After the user confirms** they switched (or reverted), call `report_outcome` so the public "most used"
    counts improve.
@@ -100,7 +127,7 @@ pay per use, or Replace with AI (a spec a coding agent builds from). Data comes 
 
 ## Tools on the MCP server
 
-`get_my_plan`, `choose_stack`, `plan_stack_from_spec`, `list_stack_jobs`, `audit_stack`, `get_usage_questions`,
-`get_detection_rules`, `find_alternatives`, `search_recipes`, `get_recipe`, `get_build_packet`, `leaderboard`,
-`list_categories`, `report_outcome`.
+`get_my_plan`, `start_audit`, `choose_stack`, `plan_stack_from_spec`, `list_stack_jobs`, `audit_stack`, `get_usage_questions`,
+`get_detection_rules`, `find_alternatives`, `search_recipes`, `get_recipe`, `get_build_packet`,
+`search_workflow_recipes`, `get_workflow_recipe`, `leaderboard`, `list_categories`, `report_outcome`.
 Docs: https://stackcut.io/agents

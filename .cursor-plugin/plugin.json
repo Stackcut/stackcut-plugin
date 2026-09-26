@@ -1,7 +1,7 @@
 {
   "name": "stackcut",
   "displayName": "Stackcut",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Cut SaaS spend. Work through your Stackcut savings plan line by line (receipts and sourced prices as proof), find cheaper alternatives to the tools you pay for with step-by-step exit and setup playbooks, and pick the cheapest database, host or email provider at your real volume. Free, no API key.",
   "author": {
     "name": "Stackcut"
