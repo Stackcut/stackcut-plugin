@@ -131,6 +131,38 @@
    ]
   },
   {
+   "id": "stripe_connect",
+   "name": "Stripe Connect",
+   "product_id": "stripe_connect",
+   "category": "Payments",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [],
+   "files": [],
+   "hosts": [
+    "connect\\.stripe\\.com",
+    "application_fee_amount",
+    "stripe\\.(accounts|accountLinks|transfers)\\.create",
+    "stripe\\.(Account|AccountLink|Transfer)\\.create"
+   ],
+   "features": [
+    {
+     "name": "Connected accounts",
+     "re": "accounts\\.create|Account\\.create|accountLinks|AccountLink"
+    },
+    {
+     "name": "Transfers and destination charges",
+     "re": "transfers\\.create|Transfer\\.create|transfer_data|application_fee_amount"
+    },
+    {
+     "name": "Payouts to connected accounts",
+     "re": "payouts\\.create.*stripeAccount|stripe_account"
+    }
+   ]
+  },
+  {
    "id": "lemon_squeezy",
    "name": "Lemon Squeezy",
    "product_id": "lemon_squeezy",
@@ -541,10 +573,13 @@
     "SUPABASE_"
    ],
    "files": [
-    "supabase/config.toml"
+    "supabase/config.toml",
+    "supabase/migrations",
+    "supabase/seed.sql"
    ],
    "hosts": [
-    "\\.supabase\\.co\\b"
+    "\\.supabase\\.co\\b",
+    "pooler\\.supabase\\.com"
    ],
    "features": [
     {
@@ -585,7 +620,8 @@
    ],
    "files": [],
    "hosts": [
-    "neon\\.tech"
+    "ep-[a-z0-9-]+\\.[a-z0-9.-]*neon\\.tech",
+    "console\\.neon\\.tech/api"
    ],
    "features": [
     {
@@ -856,8 +892,22 @@
    "product_id": "aws",
    "category": "Hosting",
    "npm": [
-    "@aws-sdk/*",
-    "aws-sdk"
+    "aws-sdk",
+    "@aws-sdk/client-lambda",
+    "@aws-sdk/client-dynamodb",
+    "@aws-sdk/lib-dynamodb",
+    "@aws-sdk/client-sqs",
+    "@aws-sdk/client-sns",
+    "@aws-sdk/client-ec2",
+    "@aws-sdk/client-ecs",
+    "@aws-sdk/client-rds",
+    "@aws-sdk/client-rds-data",
+    "@aws-sdk/client-cloudfront",
+    "@aws-sdk/client-apigatewaymanagementapi",
+    "@aws-sdk/client-sfn",
+    "@aws-sdk/client-eventbridge",
+    "aws-cdk-lib",
+    "aws-cdk"
    ],
    "pypi": [
     "boto3"
@@ -865,7 +915,7 @@
    "gem": [],
    "go": [],
    "env": [
-    "^AWS_"
+    "^AWS_(?!ACCESS_KEY_ID$|SECRET_ACCESS_KEY$|SESSION_TOKEN$|REGION$|DEFAULT_REGION$|PROFILE$|ACCOUNT_ID$|ENDPOINT|S3_|SES_|BUCKET)"
    ],
    "files": [
     "serverless.yml",
@@ -890,6 +940,77 @@
     {
      "name": "SQS queues",
      "re": "client-sqs|sqs"
+    }
+   ]
+  },
+  {
+   "id": "aws_s3",
+   "name": "Amazon S3 (or an S3-compatible store)",
+   "product_id": "aws_s3",
+   "category": "Object storage",
+   "npm": [
+    "@aws-sdk/client-s3",
+    "@aws-sdk/s3-request-presigner",
+    "@aws-sdk/lib-storage",
+    "@aws-sdk/s3-presigned-post"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "(^|_)S3_",
+    "^AWS_BUCKET"
+   ],
+   "files": [],
+   "hosts": [
+    "s3\\.amazonaws\\.com",
+    "s3[.-][a-z0-9-]+\\.amazonaws\\.com"
+   ],
+   "features": [
+    {
+     "name": "Uploads",
+     "re": "PutObjectCommand|putObject|put_object|upload_file|new Upload\\("
+    },
+    {
+     "name": "Presigned URLs",
+     "re": "getSignedUrl|createPresignedPost|generate_presigned_url|generate_presigned_post"
+    },
+    {
+     "name": "Downloads",
+     "re": "GetObjectCommand|getObject|get_object|download_file"
+    },
+    {
+     "name": "Multipart uploads",
+     "re": "CreateMultipartUploadCommand|lib-storage|create_multipart_upload"
+    }
+   ]
+  },
+  {
+   "id": "cloudflare_r2",
+   "name": "Cloudflare R2",
+   "product_id": "cloudflare_r2",
+   "category": "Object storage",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "(^|_)R2_",
+    "CLOUDFLARE_R2"
+   ],
+   "files": [],
+   "hosts": [
+    "r2\\.cloudflarestorage\\.com",
+    "\\.r2\\.dev"
+   ],
+   "features": [
+    {
+     "name": "S3-compatible API",
+     "re": "r2\\.cloudflarestorage\\.com|S3Client"
+    },
+    {
+     "name": "Workers binding",
+     "re": "R2Bucket|r2_buckets"
     }
    ]
   },
@@ -932,7 +1053,10 @@
    ],
    "files": [],
    "hosts": [
-    "(us|eu|app)\\.(i\\.)?posthog\\.com"
+    "i\\.posthog\\.com",
+    "us\\.posthog\\.com",
+    "eu\\.posthog\\.com",
+    "app\\.posthog\\.com"
    ],
    "features": [
     {
@@ -1074,7 +1198,7 @@
   {
    "id": "google_analytics",
    "name": "Google Analytics",
-   "product_id": null,
+   "product_id": "google_analytics",
    "category": "Analytics",
    "npm": [
     "react-ga4",
@@ -1083,7 +1207,9 @@
    "pypi": [],
    "gem": [],
    "go": [],
-   "env": [],
+   "env": [
+    "^(NEXT_PUBLIC_|VITE_|PUBLIC_|REACT_APP_|GATSBY_)?(GA|GA4|GOOGLE_ANALYTICS)_(ID|MEASUREMENT_ID|TRACKING_ID)$"
+   ],
    "files": [],
    "hosts": [
     "googletagmanager\\.com/gtag",
@@ -1093,6 +1219,54 @@
     {
      "name": "Pageviews",
      "re": "gtag\\(|GoogleAnalytics"
+    },
+    {
+     "name": "Custom events",
+     "re": "gtag\\(['\\\"]event|sendGAEvent|ReactGA\\.event"
+    },
+    {
+     "name": "Measurement Protocol",
+     "re": "/mp/collect"
+    }
+   ]
+  },
+  {
+   "id": "segment",
+   "name": "Twilio Segment",
+   "product_id": "segment",
+   "category": "Analytics",
+   "npm": [
+    "@segment/analytics-next",
+    "@segment/analytics-node",
+    "analytics-node",
+    "@segment/analytics-react-native"
+   ],
+   "pypi": [
+    "segment-analytics-python",
+    "analytics-python"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^(NEXT_PUBLIC_|VITE_|PUBLIC_|REACT_APP_)?SEGMENT_"
+   ],
+   "files": [],
+   "hosts": [
+    "cdn\\.segment\\.com",
+    "api\\.segment\\.io"
+   ],
+   "features": [
+    {
+     "name": "Track events",
+     "re": "analytics\\.track|/v1/track"
+    },
+    {
+     "name": "Identify users",
+     "re": "analytics\\.identify|/v1/identify"
+    },
+    {
+     "name": "Page views",
+     "re": "analytics\\.page\\("
     }
    ]
   },
@@ -1119,7 +1293,7 @@
    ],
    "go": [],
    "env": [
-    "SENTRY_"
+    "^(NEXT_PUBLIC_|VITE_|PUBLIC_|EXPO_PUBLIC_|REACT_APP_)?SENTRY_"
    ],
    "files": [
     "sentry.client.config.ts",
@@ -1347,6 +1521,35 @@
    ]
   },
   {
+   "id": "vercel_ai_gateway",
+   "name": "Vercel AI Gateway",
+   "product_id": "vercel_ai_gateway",
+   "category": "AI APIs",
+   "npm": [
+    "@ai-sdk/gateway"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^AI_GATEWAY_API_KEY$"
+   ],
+   "files": [],
+   "hosts": [
+    "ai-gateway\\.vercel\\.sh"
+   ],
+   "features": [
+    {
+     "name": "Unified model API",
+     "re": "ai-gateway\\.vercel\\.sh|gateway\\(|createGateway"
+    },
+    {
+     "name": "Bring your own key",
+     "re": "byok"
+    }
+   ]
+  },
+  {
    "id": "deepseek_api",
    "name": "DeepSeek API",
    "product_id": "deepseek_api",
@@ -1372,7 +1575,8 @@
    "product_id": "replicate",
    "category": "AI APIs",
    "npm": [
-    "replicate"
+    "replicate",
+    "@ai-sdk/replicate"
    ],
    "pypi": [
     "replicate"
@@ -1380,16 +1584,31 @@
    "gem": [],
    "go": [],
    "env": [
-    "^REPLICATE_"
+    "(^|_)REPLICATE(_|$)"
    ],
-   "files": [],
+   "files": [
+    "cog.yaml"
+   ],
    "hosts": [
-    "api\\.replicate\\.com"
+    "api\\.replicate\\.com",
+    "replicate\\.delivery"
    ],
    "features": [
     {
      "name": "Run models",
-     "re": "replicate\\.run|predictions\\.create"
+     "re": "replicate\\.run|predictions\\.create|/v1/predictions|/v1/models/[^'\\\"`]+/predictions"
+    },
+    {
+     "name": "Deployments",
+     "re": "deployments\\.predictions|/v1/deployments"
+    },
+    {
+     "name": "Trainings",
+     "re": "trainings\\.create|/v1/trainings"
+    },
+    {
+     "name": "AI SDK provider",
+     "re": "@ai-sdk/replicate|replicate\\.image\\("
     }
    ]
   },
@@ -1400,7 +1619,8 @@
    "category": "AI APIs",
    "npm": [
     "@fal-ai/client",
-    "@fal-ai/serverless-client"
+    "@fal-ai/serverless-client",
+    "@ai-sdk/fal"
    ],
    "pypi": [
     "fal-client"
@@ -1408,7 +1628,7 @@
    "gem": [],
    "go": [],
    "env": [
-    "^FAL_KEY"
+    "^FAL_(API_)?KEY"
    ],
    "files": [],
    "hosts": [],
@@ -1420,6 +1640,102 @@
    ]
   },
   {
+   "id": "google_gemini_api",
+   "name": "Google Gemini API",
+   "product_id": "google_gemini_api",
+   "category": "AI APIs",
+   "npm": [
+    "@google/genai",
+    "@google/generative-ai",
+    "@ai-sdk/google"
+   ],
+   "pypi": [
+    "google-genai",
+    "google-generativeai"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^(GEMINI|GOOGLE_GENERATIVE_AI|GOOGLE_GENAI)_"
+   ],
+   "files": [],
+   "hosts": [
+    "generativelanguage\\.googleapis\\.com"
+   ],
+   "features": [
+    {
+     "name": "Text generation",
+     "re": "generateContent|models\\.generate_content|streamGenerateContent"
+    },
+    {
+     "name": "Live audio (realtime voice)",
+     "re": "live\\.connect|BidiGenerateContent|gemini-[a-z0-9.-]*live"
+    },
+    {
+     "name": "Image generation",
+     "re": "imagen|image-generation|gemini-[0-9.]+-flash-image"
+    }
+   ]
+  },
+  {
+   "id": "higgsfield",
+   "name": "Higgsfield",
+   "product_id": null,
+   "category": "AI APIs",
+   "npm": [],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^HIGGSFIELD_"
+   ],
+   "files": [],
+   "hosts": [
+    "higgsfield\\.ai"
+   ],
+   "features": [
+    {
+     "name": "Video generation",
+     "re": "generate|video"
+    }
+   ]
+  },
+  {
+   "id": "postgres_unknown_host",
+   "name": "Postgres (host not identified)",
+   "product_id": null,
+   "category": "Databases",
+   "npm": [
+    "pg",
+    "postgres",
+    "@prisma/client",
+    "drizzle-orm",
+    "kysely"
+   ],
+   "pypi": [
+    "psycopg2",
+    "psycopg",
+    "asyncpg",
+    "sqlalchemy"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^DATABASE_URL$",
+    "^POSTGRES_(URL|PRISMA_URL|URL_NON_POOLING|HOST)$",
+    "^DIRECT_URL$"
+   ],
+   "files": [],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Postgres database",
+     "re": "prisma\\.|sql`|\\.query\\(|drizzle\\("
+    }
+   ],
+   "weak": true
+  },
+  {
    "id": "elevenlabs",
    "name": "ElevenLabs",
    "product_id": "elevenlabs",
@@ -1427,7 +1743,8 @@
    "npm": [
     "elevenlabs",
     "@elevenlabs/elevenlabs-js",
-    "@11labs/client"
+    "@11labs/client",
+    "@ai-sdk/elevenlabs"
    ],
    "pypi": [
     "elevenlabs"
@@ -2625,16 +2942,276 @@
    ]
   },
   {
-   "id": "twilio",
-   "name": "Twilio",
-   "product_id": null,
-   "category": "Messaging",
+   "id": "clerk",
+   "name": "Clerk",
+   "product_id": "clerk",
+   "category": "Auth",
    "npm": [
-    "twilio"
+    "@clerk/*"
    ],
-   "pypi": [],
+   "pypi": [
+    "clerk-backend-api"
+   ],
+   "gem": [],
+   "go": [
+    "github.com/clerk/clerk-sdk-go*"
+   ],
+   "env": [
+    "^(NEXT_PUBLIC_|VITE_|PUBLIC_|EXPO_PUBLIC_|REACT_APP_|GATSBY_)?CLERK_"
+   ],
+   "files": [],
+   "hosts": [
+    "clerk\\.accounts\\.dev",
+    "api\\.clerk\\.com",
+    "npm/@clerk/clerk-js",
+    "data-clerk-publishable-key"
+   ],
+   "features": [
+    {
+     "name": "Sign-in UI",
+     "re": "<SignIn|<SignUp|mountSignIn|openSignIn|SignInButton"
+    },
+    {
+     "name": "Organizations",
+     "re": "useOrganization|organizations\\.|OrganizationSwitcher"
+    },
+    {
+     "name": "Backend user API",
+     "re": "clerkClient|users\\.getUser|createClerkClient"
+    },
+    {
+     "name": "Webhooks",
+     "re": "svix|clerk.*webhook|verifyWebhook"
+    }
+   ]
+  },
+  {
+   "id": "firebase",
+   "name": "Firebase",
+   "product_id": "firebase",
+   "category": "Databases",
+   "npm": [
+    "firebase",
+    "firebase-admin",
+    "firebase-functions",
+    "@react-native-firebase/app"
+   ],
+   "pypi": [
+    "firebase-admin"
+   ],
    "gem": [],
    "go": [],
+   "env": [
+    "^(NEXT_PUBLIC_|VITE_|PUBLIC_|EXPO_PUBLIC_|REACT_APP_|GATSBY_)?FIREBASE_"
+   ],
+   "files": [
+    "firebase.json",
+    ".firebaserc"
+   ],
+   "hosts": [
+    "[a-z0-9-]+\\.firebaseio\\.com",
+    "[a-z0-9-]+\\.firebaseapp\\.com",
+    "[a-z0-9-]+\\.firebasestorage\\.app",
+    "firestore\\.googleapis\\.com"
+   ],
+   "features": [
+    {
+     "name": "Firestore",
+     "re": "getFirestore|firestore\\(\\)|collection\\(db"
+    },
+    {
+     "name": "Authentication",
+     "re": "getAuth|signInWith|onAuthStateChanged"
+    },
+    {
+     "name": "Realtime Database",
+     "re": "getDatabase|firebaseio"
+    },
+    {
+     "name": "Cloud Storage",
+     "re": "getStorage|firebasestorage"
+    },
+    {
+     "name": "Cloud Functions",
+     "re": "firebase-functions|onCall|httpsCallable"
+    },
+    {
+     "name": "Hosting",
+     "re": "\\\"hosting\\\""
+    }
+   ]
+  },
+  {
+   "id": "upstash_redis",
+   "name": "Upstash Redis",
+   "product_id": "upstash_redis",
+   "category": "Cache",
+   "npm": [
+    "@upstash/redis",
+    "@upstash/ratelimit"
+   ],
+   "pypi": [
+    "upstash-redis",
+    "upstash-ratelimit"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^UPSTASH_REDIS_"
+   ],
+   "files": [],
+   "hosts": [],
+   "features": [
+    {
+     "name": "Redis commands",
+     "re": "redis\\.(get|set|incr|expire|hget|hset|zadd|lpush)\\("
+    },
+    {
+     "name": "Rate limiting",
+     "re": "Ratelimit|ratelimit"
+    }
+   ]
+  },
+  {
+   "id": "upstash_qstash",
+   "name": "Upstash QStash",
+   "product_id": "upstash_qstash",
+   "category": "Background jobs",
+   "npm": [
+    "@upstash/qstash",
+    "@upstash/workflow"
+   ],
+   "pypi": [
+    "qstash"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^QSTASH_"
+   ],
+   "files": [],
+   "hosts": [
+    "qstash(-[a-z0-9-]+)?\\.upstash\\.io"
+   ],
+   "features": [
+    {
+     "name": "Publish messages",
+     "re": "publishJSON|\\.publish\\("
+    },
+    {
+     "name": "Schedules",
+     "re": "schedules\\.create"
+    },
+    {
+     "name": "Workflows",
+     "re": "@upstash/workflow|serve\\("
+    }
+   ]
+  },
+  {
+   "id": "pinecone",
+   "name": "Pinecone",
+   "product_id": "pinecone",
+   "category": "Vector DB",
+   "npm": [
+    "@pinecone-database/pinecone"
+   ],
+   "pypi": [
+    "pinecone",
+    "pinecone-client"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^PINECONE_"
+   ],
+   "files": [],
+   "hosts": [
+    "api\\.pinecone\\.io/(indexes|collections|backups|backup-schedules|embed|rerank)",
+    "[a-z0-9-]+\\.svc\\.[a-z0-9-]+\\.pinecone\\.io"
+   ],
+   "features": [
+    {
+     "name": "Upsert vectors",
+     "re": "\\.upsert\\("
+    },
+    {
+     "name": "Query vectors",
+     "re": "\\.query\\("
+    },
+    {
+     "name": "Integrated embedding",
+     "re": "inference\\.embed|embed\\("
+    }
+   ]
+  },
+  {
+   "id": "algolia",
+   "name": "Algolia",
+   "product_id": "algolia",
+   "category": "Search",
+   "npm": [
+    "algoliasearch",
+    "@algolia/client-search",
+    "react-instantsearch",
+    "react-instantsearch-hooks-web",
+    "instantsearch.js",
+    "@algolia/recommend",
+    "@docsearch/react",
+    "@docsearch/js"
+   ],
+   "pypi": [
+    "algoliasearch"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^(NEXT_PUBLIC_|VITE_|PUBLIC_|REACT_APP_|GATSBY_)?ALGOLIA_"
+   ],
+   "files": [],
+   "hosts": [
+    "[a-z0-9]{10}(-dsn)?\\.algolia\\.net",
+    "[a-z0-9]{10}-[1-3]\\.algolianet\\.com"
+   ],
+   "features": [
+    {
+     "name": "Search",
+     "re": "searchSingleIndex|\\.search\\(|InstantSearch"
+    },
+    {
+     "name": "Indexing",
+     "re": "saveObjects|saveObject|partialUpdateObjects|replaceAllObjects"
+    },
+    {
+     "name": "Recommendations",
+     "re": "getRecommendations|@algolia/recommend"
+    },
+    {
+     "name": "DocSearch",
+     "re": "@docsearch|docsearch\\("
+    }
+   ]
+  },
+  {
+   "id": "twilio",
+   "name": "Twilio",
+   "product_id": "twilio",
+   "category": "Messaging",
+   "npm": [
+    "twilio",
+    "@twilio/voice-sdk",
+    "@twilio/conversations",
+    "twilio-video"
+   ],
+   "pypi": [
+    "twilio"
+   ],
+   "gem": [
+    "twilio-ruby"
+   ],
+   "go": [
+    "github.com/twilio/twilio-go*"
+   ],
    "env": [
     "^TWILIO_"
    ],
@@ -2642,53 +3219,135 @@
    "hosts": [
     "api\\.twilio\\.com"
    ],
-   "features": []
+   "features": [
+    {
+     "name": "SMS",
+     "re": "messages\\.create|Messages\\.json"
+    },
+    {
+     "name": "Voice calls",
+     "re": "calls\\.create|VoiceResponse|twiml|Calls\\.json"
+    },
+    {
+     "name": "Verify (OTP)",
+     "re": "verify\\.v2|verifications\\.create|verificationChecks"
+    }
+   ]
   },
   {
-   "id": "algolia",
-   "name": "Algolia",
-   "product_id": null,
-   "category": "Search",
+   "id": "cloudflare_browser_rendering",
+   "name": "Cloudflare Browser Run (Browser Rendering)",
+   "product_id": "cloudflare_browser_rendering",
+   "category": "AI agent infra",
    "npm": [
-    "algoliasearch",
-    "react-instantsearch",
-    "@algolia/client-search"
+    "@cloudflare/puppeteer",
+    "@cloudflare/playwright"
+   ],
+   "pypi": [],
+   "gem": [],
+   "go": [],
+   "env": [],
+   "files": [],
+   "hosts": [
+    "/client/v4/accounts/[^/'\\\"`]+/browser-rendering"
+   ],
+   "features": [
+    {
+     "name": "Quick Actions (REST)",
+     "re": "browser-rendering/(content|screenshot|pdf|markdown|snapshot|scrape|json|links|crawl)"
+    },
+    {
+     "name": "Puppeteer or Playwright sessions",
+     "re": "@cloudflare/puppeteer|@cloudflare/playwright|launch\\(env\\."
+    }
+   ]
+  },
+  {
+   "id": "apple_app_store",
+   "name": "Apple App Store",
+   "product_id": "apple_app_store",
+   "category": "App stores",
+   "npm": [
+    "@apple/app-store-server-library",
+    "react-native-iap",
+    "expo-iap",
+    "expo-in-app-purchases",
+    "cordova-plugin-purchase",
+    "react-native-purchases",
+    "@revenuecat/purchases-capacitor"
+   ],
+   "pypi": [
+    "app-store-server-library"
+   ],
+   "gem": [],
+   "go": [],
+   "env": [
+    "^APP_STORE_CONNECT_",
+    "^APPLE_(IAP|SHARED_SECRET|APP_STORE)"
+   ],
+   "files": [
+    "ios/Podfile",
+    "fastlane/Appfile"
+   ],
+   "hosts": [
+    "apps\\.apple\\.com/",
+    "api\\.storekit(-sandbox)?\\.apple\\.com",
+    "(buy|sandbox)\\.itunes\\.apple\\.com/verifyReceipt"
+   ],
+   "features": [
+    {
+     "name": "In-app purchases",
+     "re": "requestPurchase|getProducts|fetchProducts|purchaseUpdatedListener|finishTransaction|useIAP|Purchases\\.(configure|purchase)"
+    },
+    {
+     "name": "Subscriptions",
+     "re": "requestSubscription|getSubscriptions|autoRenew"
+    },
+    {
+     "name": "App Store Server API",
+     "re": "AppStoreServerAPIClient|SignedDataVerifier|verifyReceipt|api\\.storekit"
+    }
+   ]
+  },
+  {
+   "id": "google_play",
+   "name": "Google Play",
+   "product_id": "google_play",
+   "category": "App stores",
+   "npm": [
+    "@googleapis/androidpublisher",
+    "google-play-billing-validator",
+    "react-native-iap",
+    "expo-iap",
+    "expo-in-app-purchases",
+    "cordova-plugin-purchase",
+    "react-native-purchases",
+    "@revenuecat/purchases-capacitor"
    ],
    "pypi": [],
    "gem": [],
    "go": [],
    "env": [
-    "^ALGOLIA_"
+    "^GOOGLE_PLAY_"
    ],
-   "files": [],
+   "files": [
+    "android/app/build.gradle",
+    "android/app/build.gradle.kts"
+   ],
    "hosts": [
-    "algolia\\.net"
+    "play\\.google\\.com/store/apps/details",
+    "androidpublisher\\.googleapis\\.com"
    ],
-   "features": []
-  },
-  {
-   "id": "clerk",
-   "name": "Clerk",
-   "product_id": null,
-   "category": "Auth",
-   "npm": [
-    "@clerk/nextjs",
-    "@clerk/clerk-react",
-    "@clerk/backend",
-    "@clerk/express"
-   ],
-   "pypi": [],
-   "gem": [],
-   "go": [],
-   "env": [
-    "^CLERK_",
-    "NEXT_PUBLIC_CLERK"
-   ],
-   "files": [],
-   "hosts": [
-    "clerk\\.accounts\\.dev"
-   ],
-   "features": []
+   "features": [
+    {
+     "name": "In-app purchases",
+     "re": "requestPurchase|getProducts|fetchProducts|purchaseUpdatedListener|acknowledgePurchase|useIAP|Purchases\\.(configure|purchase)"
+    },
+    {
+     "name": "Play Developer API",
+     "re": "androidpublisher|purchases\\.subscriptions|purchases\\.products"
+    }
+   ]
   },
   {
    "id": "auth0",
@@ -2713,28 +3372,6 @@
    "features": []
   },
   {
-   "id": "firebase",
-   "name": "Firebase",
-   "product_id": null,
-   "category": "Databases",
-   "npm": [
-    "firebase",
-    "firebase-admin"
-   ],
-   "pypi": [],
-   "gem": [],
-   "go": [],
-   "env": [
-    "FIREBASE_"
-   ],
-   "files": [],
-   "hosts": [
-    "firebaseio\\.com",
-    "firebaseapp\\.com"
-   ],
-   "features": []
-  },
-  {
    "id": "pusher",
    "name": "Pusher",
    "product_id": null,
@@ -2752,48 +3389,6 @@
    "files": [],
    "hosts": [
     "pusher\\.com"
-   ],
-   "features": []
-  },
-  {
-   "id": "upstash",
-   "name": "Upstash",
-   "product_id": null,
-   "category": "Databases",
-   "npm": [
-    "@upstash/redis",
-    "@upstash/ratelimit",
-    "@upstash/qstash"
-   ],
-   "pypi": [],
-   "gem": [],
-   "go": [],
-   "env": [
-    "^UPSTASH_"
-   ],
-   "files": [],
-   "hosts": [
-    "upstash\\.io"
-   ],
-   "features": []
-  },
-  {
-   "id": "pinecone",
-   "name": "Pinecone",
-   "product_id": null,
-   "category": "Vector DB",
-   "npm": [
-    "@pinecone-database/pinecone"
-   ],
-   "pypi": [],
-   "gem": [],
-   "go": [],
-   "env": [
-    "^PINECONE_"
-   ],
-   "files": [],
-   "hosts": [
-    "pinecone\\.io"
    ],
    "features": []
   },
@@ -2861,25 +3456,21 @@
    "features": []
   },
   {
-   "id": "segment",
-   "name": "Segment",
+   "id": "upstash_vector",
+   "name": "Upstash Vector",
    "product_id": null,
-   "category": "Analytics",
+   "category": "Vector DB",
    "npm": [
-    "@segment/analytics-next",
-    "@segment/analytics-node",
-    "analytics-node"
+    "@upstash/vector"
    ],
    "pypi": [],
    "gem": [],
    "go": [],
    "env": [
-    "^SEGMENT_"
+    "^UPSTASH_VECTOR_"
    ],
    "files": [],
-   "hosts": [
-    "cdn\\.segment\\.com"
-   ],
+   "hosts": [],
    "features": []
   },
   {

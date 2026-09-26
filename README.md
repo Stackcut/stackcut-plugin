@@ -13,7 +13,8 @@ skill that knows how to use it.
 - **The cheapest stack at your volume.** `@stackcut pick a database and an email provider for 20k users and 40k emails
   a month`. A tier only counts when its published limit covers your volume.
 - **Audit a codebase.** The skill scans a repo locally for paid services and sends Stackcut only vendor and feature
-  names, never code or secrets.
+  names, never code or secrets. The audit checks your usage against each plan's limits, finds right-sized plans and
+  idle projects to pause, and says what a cheaper plan leaves out.
 
 ## Install
 
@@ -21,8 +22,9 @@ skill that knows how to use it.
   https://stackcut.io/mcp*.
 - **Cursor:** install from the Cursor Marketplace, or add `mcp.json` from this repo to your MCP settings.
 
-No API key. The server is free, read-only, and stores no user data; `get_my_plan` reads only a plan you share with a
-code that expires in 7 days and can be revoked.
+No API key, and the server is free. It stores the arguments agents send to its tools (redacted, never IP addresses) to
+improve recommendations, so don't put personal data or secrets in them. `get_my_plan` reads only a plan you share with
+a code that expires in 7 days and can be revoked. Details: https://stackcut.io/privacy
 
 ## Network and credentials
 
@@ -41,8 +43,9 @@ reads `.env` files or sends code, file contents or secret values.
 | `skills/stackcut/` | The Stackcut skill, plus a local scanner (`scripts/detect.mjs`) and its rules (`detect.json`) |
 | `assets/logo.svg` | Logo |
 
-Tools: `get_my_plan`, `choose_stack`, `list_stack_jobs`, `audit_stack`, `get_detection_rules`, `find_alternatives`,
-`search_recipes`, `get_recipe`, `get_build_packet`, `leaderboard`, `list_categories`, `report_outcome`.
+Tools: `get_my_plan`, `choose_stack`, `plan_stack_from_spec`, `list_stack_jobs`, `audit_stack`, `get_usage_questions`,
+`get_detection_rules`, `find_alternatives`, `search_recipes`, `get_recipe`, `get_build_packet`, `leaderboard`,
+`list_categories`, `report_outcome`.
 Docs: https://stackcut.io/agents · Grok Bot guide: https://stackcut.io/grok
 
 Savings are modeled from public prices, not guaranteed. Grok Bot is a product of xAI; Stackcut is not affiliated with

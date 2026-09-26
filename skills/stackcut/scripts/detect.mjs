@@ -104,7 +104,7 @@ for (const v of rules.vendors) {
   (v.files || []).filter(hasFile).forEach((n) => ev.push(`file:${n}`));
   const hostRes = (v.hosts || []).map((r) => new RegExp(r, "i"));
   const hostFiles = sources.filter((s) => !s.config && hostRes.some((r) => r.test(s.text)));
-  if (hostFiles.length) ev.push(`host:${v.hosts.map((h) => h.replace(/\\/g, "")).join("|").slice(0, 60)} (${hostFiles.length} file${hostFiles.length === 1 ? "" : "s"})`);
+  if (hostFiles.length) ev.push(`host:${v.hosts.map((h) => h.replace(/\\b/g, "").replace(/\(\?:/g, "(").replace(/\\/g, "")).join("|").slice(0, 60)} (${hostFiles.length} file${hostFiles.length === 1 ? "" : "s"})`);
   const strong = ev.some((e) => /^(npm|pypi|gem|go|env|host):/.test(e));
   if (!ev.length || (v.weak && !strong && ev.length < 2)) continue;
   // features: count matches only in files that reference this vendor (package import, host, or env name), else all files
